@@ -2,6 +2,8 @@ import { getLanguage } from 'obsidian';
 import { I18N } from './i18n';
 import { Book } from './i18n/models';
 
+const CHAPTER_VERSE_SEPARATOR = '[:,] ?';
+
 export default class PassageReference
 	implements ChapterReference, PassageOptions
 {
@@ -61,7 +63,11 @@ export default class PassageReference
 			.map((b) => `${b.name}|${b.aliases.join('|')}`)
 			.join('|');
 		regExpString +=
-			') ?(\\d{1,3}(?::\\d{1,3})?(?: ?\\- ?\\d{1,3}(?::\\d{1,3})?)?)((?: ?\\+\\w+(?::[a-z]+)?){0,2})$';
+			') ?(\\d{1,3}(?:' +
+			CHAPTER_VERSE_SEPARATOR +
+			'\\d{1,3})?(?: ?\\- ?\\d{1,3}(?:' +
+			CHAPTER_VERSE_SEPARATOR +
+			'\\d{1,3})?)?)((?: ?\\+\\w+(?::[a-z]+)?){0,2})$';
 
 		return new RegExp(regExpString, 'i');
 	}
@@ -116,12 +122,15 @@ export default class PassageReference
 
 	/**
 	 * Parses a multi-chapter-and-verse reference from the given text.
-	 * Reference format: `startChapter:startVerse[ ]-[ ]endChapter:endVerse`.
+	 * Reference format: `startChapter[:|,]startVerse[ ]-[ ]endChapter[:|,]endVerse`.
 	 */
 	private static parseMultiChapterVerseRef(
 		text: string
 	): ChapterReference | null {
-		const regex = /^(\d{1,3}):(\d{1,3}) ?- ?(\d{1,3}):(\d{1,3})$/i;
+		const regex = new RegExp(
+			`^(\\d{1,3})${CHAPTER_VERSE_SEPARATOR}(\\d{1,3}) ?- ?(\\d{1,3})${CHAPTER_VERSE_SEPARATOR}(\\d{1,3})$`,
+			'i'
+		);
 		const match = text.match(regex);
 		if (!match) return null;
 
@@ -135,10 +144,13 @@ export default class PassageReference
 
 	/**
 	 * Parses a multi-verse reference from the given text.
-	 * Reference format: `startChapter:startVerse[-endVerse]`.
+	 * Reference format: `startChapter[:|,]startVerse[-endVerse]`.
 	 */
 	private static parseMultiVerseRef(text: string): ChapterReference | null {
-		const regex = /^(\d{1,3}):(\d{1,3})(?:-(\d{1,3}))?$/i;
+		const regex = new RegExp(
+			`^(\\d{1,3})${CHAPTER_VERSE_SEPARATOR}(\\d{1,3})(?:-(\\d{1,3}))?$`,
+			'i'
+		);
 		const match = text.match(regex);
 		if (!match) return null;
 

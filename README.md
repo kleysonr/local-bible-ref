@@ -35,6 +35,7 @@ The referencing syntax also allows for a lot of flexibility:
 - Short and full name references: `--gen1` + `--genesis1`
 - Lowercase, uppercase and mixed-case references: `--gEnEsis1`
 - Spacing (not more than a single space): `-- Genesis 1:1 - 2:2`
+- Colon or comma chapter-verse separator: `--John 1:1` + `--John 1,1`
 
 ### Options
 
