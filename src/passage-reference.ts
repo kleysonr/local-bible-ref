@@ -89,17 +89,17 @@ export default class PassageReference
 			if (this.startVerse === this.endVerse)
 				return (
 					this.book.name +
-					` ${this.startChapter}:${this.startVerse} - ${this.version}`
+					` ${this.startChapter},${this.startVerse} - ${this.version}`
 				);
 			return (
-				`${this.book.name} ${this.startChapter}:` +
+				`${this.book.name} ${this.startChapter},` +
 				`${this.startVerse}-${this.endVerse} - ${this.version}`
 			);
 		}
 
 		// multi-chapter-and-verse ref
-		const a = `${this.startChapter}:${this.startVerse}`;
-		const b = `${this.endChapter}:${this.endVerse}`;
+		const a = `${this.startChapter},${this.startVerse}`;
+		const b = `${this.endChapter},${this.endVerse}`;
 		return `${this.book.name} ${a}-${b} - ${this.version}`;
 	}
 
@@ -210,6 +210,10 @@ export default class PassageReference
 				case 'callout':
 					options.format = PassageFormat.Callout;
 					break;
+				case 'l':
+				case 'link':
+					options.format = PassageFormat.Link;
+					break;
 				default:
 					options.version = option.toUpperCase();
 					break;
@@ -221,7 +225,10 @@ export default class PassageReference
 }
 
 function getBooksByLanguage(): Book[] {
-	switch (getLanguage()) {
+	const lang = getLanguage();
+	console.log("[LBR-DEBUG] Idioma detectado pelo Obsidian:", lang);
+	
+	switch (lang) {
 		case 'cs':
 			return I18N.CS.BOOKS;
 		case 'de':
@@ -229,10 +236,12 @@ function getBooksByLanguage(): Book[] {
 		case 'ko':
 			return I18N.KO.BOOKS;
 		case 'pt':
+		case 'pt-br':
+		case 'pt-pt':
 			return I18N.PT.BOOKS;
 		case 'en':
 		default:
-			return I18N.EN.BOOKS;
+			return I18N.PT.BOOKS; // <-- Forçando PT como default temporário/definitivo
 	}
 }
 
@@ -241,6 +250,7 @@ export enum PassageFormat {
 	Paragraph = 'paragraph',
 	Quote = 'quote',
 	Callout = 'callout',
+	Link = 'link',
 }
 
 interface ChapterReference {

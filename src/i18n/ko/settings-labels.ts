@@ -30,7 +30,8 @@ export const SETTINGS_LABELS: SettingsLabels = {
 					[PassageFormat.Manuscript]: '원고',
 					[PassageFormat.Paragraph]: '절',
 					[PassageFormat.Quote]: '인용하다',
-					[PassageFormat.Callout]: '호출',
+					[PassageFormat.Callout]: '콜아웃',
+					[PassageFormat.Link]: 'Link',
 				},
 			},
 			bibleFormat: {

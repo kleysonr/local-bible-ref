@@ -100,6 +100,11 @@ export default class PassageSuggest extends EditorSuggest<PassageSuggestion> {
 		);
 		if (!passageRef) return [];
 
+		if (passageRef.format === PassageFormat.Link) {
+			const linkText = this.generatePassageLink(passageRef, context);
+			return [{ excerpt: `🔗 ${passageRef.stringify()}`, text: linkText }];
+		}
+
 		// grab all chapters in the range
 		let texts = await this.getChapterTexts(passageRef);
 		if (!texts) return [];

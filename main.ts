@@ -13,9 +13,11 @@ export default class LocalBibleRefPlugin extends Plugin {
 	settings: LocalBibleRefSettings;
 
 	async onload() {
+		console.log("[LBR-DEBUG] Plugin Local Bible Ref ESTÁ INICIANDO!");
 		await this.loadSettings();
 		this.addSettingTab(new LocalBibleRefSettingTab(this.app, this));
 		this.registerEditorSuggest(new PassageSuggest(this.app, this.settings));
+		console.log("[LBR-DEBUG] EditorSuggest registrado com sucesso!");
 	}
 
 	onunload() {}

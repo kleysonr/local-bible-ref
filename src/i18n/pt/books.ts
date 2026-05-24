@@ -142,7 +142,7 @@ export const BOOKS: Book[] = [
 	{ id: 'ezr', name: 'Esdras', aliases: ['esd', 'ed', 'esdras'] },
 	{ id: 'neh', name: 'Neemias', aliases: ['nee', 'ne', 'neemias'] },
 	{ id: 'est', name: 'Ester', aliases: ['est', 'es', 'ester'] },
-	{ id: 'job', name: 'Jó', aliases: ['jó', 'jo', 'job'] },
+	{ id: 'job', name: 'Jó', aliases: ['jó', 'job'] },
 	{
 		id: 'psa',
 		name: 'Salmos',
